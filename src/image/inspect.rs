@@ -38,7 +38,7 @@ pub async fn inspect_image_from_path(path: impl AsRef<Path>) -> Result<Inspectio
 
     // get 'taken at'
     let taken_at = {
-        match metadata.get_tag(META_DATETIME) {
+        match metadata.get_tag(META_DATETIME)? {
             Some(dt) if dt.len() > 0 => {
                 let naive_date = NaiveDateTime::parse_from_str(&dt, "%Y:%m:%d %H:%M:%S")?;
                 Local.from_local_datetime(&naive_date).unwrap() // never failed
@@ -52,8 +52,8 @@ pub async fn inspect_image_from_path(path: impl AsRef<Path>) -> Result<Inspectio
 
     // get gps recorded
     let gps_recorded = {
-        let lat_recorded = metadata.get_tag(META_GPS_LAT).is_some();
-        let lon_recorded = metadata.get_tag(META_GPS_LON).is_some();
+        let lat_recorded = metadata.get_tag(META_GPS_LAT)?.is_some();
+        let lon_recorded = metadata.get_tag(META_GPS_LON)?.is_some();
         lat_recorded && lon_recorded
     };
 

@@ -24,7 +24,7 @@ console = "0.15.11"
 gpx = "0.10.0"
 home = "0.5.11"
 indicatif = "0.17.11"
-kapy-exif = { version = "0.1.1", features = ["full"] }
+kapy-exif = { version = "0.2", features = ["full"] }
 oauth2 = "5.0.0"
 opener = "0.7.2"
 regex = "1.11.1"
