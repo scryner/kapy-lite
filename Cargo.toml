@@ -6,7 +6,7 @@ build = "build.rs"
 authors = ["Seonghwan Jeong <scryner@gmail.com>"]
 description = "Cli tool to copy photos with GPS information"
 repository = "https://github.com/scryner/kapy-lite"
-keywords = ["cli", "copy", "photo", "camera", "gps", "exif", "jpeg"]
+keywords = ["cli", "photo", "gps", "exif", "jpeg"]
 license = "MIT"
 exclude = ["sample/*"]
 
