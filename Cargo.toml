@@ -8,6 +8,7 @@ description = "Cli tool to copy photos with GPS information"
 repository = "https://github.com/scryner/kapy-lite"
 keywords = ["cli", "copy", "photo", "camera", "gps", "exif", "jpeg"]
 license = "MIT"
+exclude = ["sample/*"]
 
 [[bin]]
 name = "kapylite"
