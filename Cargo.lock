@@ -939,9 +939,9 @@ dependencies = [
 
 [[package]]
 name = "kapy-exif"
-version = "0.1.2"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a00b1d61c14093867d7fbb28a40332da14975f2cf106f34958754078148ea5c7"
+checksum = "db75c92c4c74cd8375e628ecd80799df774a24d878bb6bdf5ebae4e686f07c33"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -956,7 +956,7 @@ dependencies = [
 
 [[package]]
 name = "kapy-lite"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "anyhow",
  "base64",

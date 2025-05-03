@@ -4,9 +4,9 @@ use std::{
 };
 
 use anyhow::{Result, anyhow};
-use chrono::{DateTime, FixedOffset, Local};
+use chrono::{DateTime, Datelike, FixedOffset, Local};
 use kapy_exif::{CopyWithRawExif, ExtractRawExif, exif::Metadata, heic, jpeg};
-use tokio::io::AsyncWrite;
+use tokio::{fs, io::AsyncWrite};
 
 use crate::gps::GpsSearch;
 
@@ -61,6 +61,20 @@ pub async fn copy_with_inspection(
         None
     };
 
+    // redefine out_dir to organize files by date taken at
+    let out_dir = {
+        let taken_at = &inspection.taken_at;
+        out_dir
+            .as_ref()
+            .join(inspection.taken_at.year().to_string())
+            .join(format!(
+                "{:04}-{:02}-{:02}",
+                taken_at.year(),
+                taken_at.month(),
+                taken_at.day()
+            ))
+    };
+
     let out_file = match out_file(in_file.as_ref(), out_dir.as_ref())? {
         Some(out_file) => out_file,
         None => return Ok(CopyResult::Skipped),
@@ -68,12 +82,14 @@ pub async fn copy_with_inspection(
 
     if let Some(gps_info) = gps_info {
         if !dry_run {
+            fs::create_dir_all(&out_dir).await?;
             copy_with_gps_info(in_file.as_ref(), out_file.as_ref(), &gps_info).await?;
         }
         Ok(CopyResult::CopiedWithAddingGpsInfo)
     } else {
         // just copy
         if !dry_run {
+            fs::create_dir_all(&out_dir).await?;
             tokio::fs::copy(in_file.as_ref(), &out_file).await?;
         }
         Ok(CopyResult::Copied)
