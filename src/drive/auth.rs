@@ -115,25 +115,38 @@ impl GoogleAuthenticator {
         let revocation_url = RevocationUrl::new(GOOGLE_REVOKE_URL.to_string()).unwrap();
         let redirect_url = RedirectUrl::new(format!("http://127.0.0.1:{}", listen_port)).unwrap();
 
+        const DEFAULT_CLIENT_ID: &str = env!("DEFAULT_CLIENT_ID");
+        const DEFAULT_CLIENT_SECRET: &str = env!("DEFAULT_CLIENT_SECRET");
+
         // try to read client_id and client_secret from environment
         let mut client_id = match env::var(CLIENT_ID_ENV_KEY) {
             Ok(val) => val,
-            _ => env::var("DEFAULT_CLIENT_ID").map_err(|_| {
-                anyhow!(
-                    "Environment variable '{}' is must be specified",
-                    CLIENT_ID_ENV_KEY
-                )
-            })?,
+            _ => {
+                let client_id = DEFAULT_CLIENT_ID.to_string();
+                if client_id.is_empty() {
+                    return Err(anyhow!(
+                        "Environment variable '{}' is must be specified",
+                        CLIENT_ID_ENV_KEY
+                    ));
+                }
+
+                client_id
+            }
         };
 
         let mut client_secret = match env::var(CLIENT_SECRET_ENV_KEY) {
             Ok(val) => val,
-            _ => env::var("DEFAULT_CLIENT_SECRET").map_err(|_| {
-                anyhow!(
-                    "Environment variable '{}' is must be specified",
-                    CLIENT_SECRET_ENV_KEY
-                )
-            })?,
+            _ => {
+                let client_secret = DEFAULT_CLIENT_SECRET.to_string();
+                if client_secret.is_empty() {
+                    return Err(anyhow!(
+                        "Environment variable '{}' is must be specified",
+                        CLIENT_SECRET_ENV_KEY
+                    ));
+                }
+
+                client_secret
+            }
         };
 
         // try to read cred from file
