@@ -84,6 +84,7 @@ mod tests {
 
     const SAMPLES: &[&str] = &[
         "sample/sample_by_pentax-k1.jpg",
+        "sample/sample_by_hasselblad-x2d.jpg",
         "sample/sample_by_hasselblad-x2d.heic",
         "sample/sample_by_iphone15-pro-max.heic",
     ];
